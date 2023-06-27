@@ -55,6 +55,7 @@ export async function newTask(req, res) {
 
     res.status(201).json({
       id: createdTask.insertId,
+      author,
       title,
       description,
       status,
@@ -93,6 +94,7 @@ export async function updateTaskByID(req, res) {
 
     res.json({
       id: taskID,
+      author,
       title,
       description,
       status,
