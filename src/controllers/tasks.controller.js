@@ -48,7 +48,7 @@ export async function newTask(req, res) {
     }
 
     const [createdTask] = await MySQLPool.query("INSERT INTO tasks SET ?", [
-      { author, title, description, status, used_key: APIKey },
+      { author, title, description, status, key_used: APIKey },
     ]);
 
     req.privilege === "PUBLIC" ? await updateAPIKeyUsage(APIKey) : "";
