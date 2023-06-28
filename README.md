@@ -85,8 +85,8 @@ GET site/api/tasks/1
 
 ### `PUT` `/update/:taskID`
  - expects: fields to modify (author, title, status, description) + taskID to find the task to update.
- - success: returns a JSON containing the edited task.
- - exception: returns a JSON with an error message depending on what happenned.
+ - success: returns a JSON containing the updated task.
+ - exception: returns a JSON with an error message according to the issue.
 
 ``` bash
 PUT site/api/tasks/update/4
@@ -106,7 +106,7 @@ PUT site/api/tasks/update/4
 ### `DELETE` `/delete/:taskID`
  - expects: taskID.
  - success: returns a JSON containing the message 'Task successfully deleted.'.
- - exception: returns a JSON with an error message depending on what happenned.
+ - exception: returns a JSON with an error message according to the issue.
 
 ``` bash
 DELETE site/api/tasks/delete/4
