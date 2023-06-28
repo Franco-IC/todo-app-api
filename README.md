@@ -43,13 +43,33 @@ GET site/api/tasks
 }
 ```
 
+### `POST` `/new`
+ - expects: author, title, status, description properties.
+ - success:  returns status 201 and a JSON containing the task created.
+ - exception: returns a JSON with an error message.
+
+``` bash
+POST site/api/tasks/new
+
+
+{
+    {
+      "id": "4",
+      "author": "user4",
+      "title": "new task title",
+      "status": "pending",
+      "description": "new task description",
+    }
+}
+```
+
 ### `GET` `/:taskID`
  - expects: taskID.
  - success: returns a JSON containing the task.
  - exception: returns status 404 and a JSON with the message 'Task not found.'.
 
 ``` bash
-GET site/api/tasks/taskID
+GET site/api/tasks/1
 
 
 {
@@ -63,37 +83,18 @@ GET site/api/tasks/taskID
 }
 ```
 
-### `POST` `/new`
- - expects: author, title, status, description properties.
- - success:  returns status 201 and a JSON containing the task created.
- - exception: returns a JSON with an error message.
-
-``` bash
-POST site/api/tasks/new
-
-
-{
-    {
-      "_id": "4",
-      "author": "user4",
-      "title": "new task title",
-      "status": "pending",
-      "description": "new task description",
-    }
-}
-```
 ### `PUT` `/update/:taskID`
  - expects: fields to modify (author, title, status, description) + taskID to find the task to update.
  - success: returns a JSON containing the edited task.
  - exception: returns a JSON with an error message depending on what happenned.
 
 ``` bash
-PUT site/api/tasks/update/:taskID
+PUT site/api/tasks/update/4
 
 
 {
    {
-      "_id": "4",
+      "id": "4",
       "author": "user4",
       "title": "updated task title",
       "status": "done",
@@ -108,7 +109,7 @@ PUT site/api/tasks/update/:taskID
  - exception: returns a JSON with an error message depending on what happenned.
 
 ``` bash
-DELETE site/api/tasks/delete/:taskID
+DELETE site/api/tasks/delete/4
 
 
 {
