@@ -2,7 +2,7 @@
 REST arquitecture API, performs CRUD operations on tasks and manages auth requests coming from the client, includes API keys creation/validation, MySQL DB hosted on PlanetScale.
 
 <b> Important: </b> All requests will require an api_key header (excepting the base url and the `/api/api_key` endpoint which grants you an API key), also be mindful about `/api/api_key` having a max of 5 keys creations per day, with 15 uses per day for each key, both limits will be reset at 00:00 (Buenos Aires, Argentina). <br>
-Because I was lazy I didn't wanted to code the api_key validation for the auth endpoints, so I ended up restricting public API keys to `/tasks` endpoints only.
+Because I was lazy I didn't wanted to code the api_key validation for the `auth` endpoints, so I ended up restricting public API keys to `/tasks` endpoints only.
 
 ### Base URL: `site/api/`
 ### Endpoints:
