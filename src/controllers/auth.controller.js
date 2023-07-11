@@ -11,26 +11,44 @@ const JWT_SECRET = process.env.JWT_SECRET;
 export async function signUp(req, res) {
   try {
     const { username, password } = req.body;
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
 
-    if (!username || !password)
+    if (!trimmedUsername || !trimmedPassword)
       throw new Error("Username and password are required");
 
     const [currentUser] = await MySQLPool.query(
       "SELECT * FROM users WHERE username = ?",
-      [username]
+      [trimmedUsername]
     );
 
     if (currentUser.length > 0) {
       throw new Error("User already exists");
     }
 
-    const passwordHash = await cypherPassword(password);
+    const passwordHash = await cypherPassword(trimmedPassword);
 
     const [newUser] = await MySQLPool.query("INSERT INTO users SET ?", [
-      { username, password: passwordHash },
+      { trimmedUsername, password: passwordHash },
     ]);
 
-    res.status(201).json({ message: "User created successfully" });
+    const token = jwt.sign({ user: trimmedUsername }, JWT_SECRET, {
+      expiresIn: "30d",
+    });
+
+    const serializedToken = serialize("jwtToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+      path: "/",
+    });
+
+    res.set("Set-Cookie", serializedToken);
+    res.status(201).json({
+      message: "User signed up successfully",
+      user: trimmedUsername,
+    });
   } catch (error) {
     errorJSON(res, error.message);
   }
@@ -39,12 +57,15 @@ export async function signUp(req, res) {
 export async function signIn(req, res) {
   try {
     const { username, password } = req.body;
-    if (!username || !password)
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedUsername || !trimmedPassword)
       throw new Error("Username and password are required");
 
     const [currentUser] = await MySQLPool.query(
       "SELECT * FROM users WHERE username = ?",
-      [username]
+      [trimmedUsername]
     );
 
     if (currentUser.length === 0) {
@@ -52,7 +73,7 @@ export async function signIn(req, res) {
     }
 
     const validPassword = await bcrypt.compare(
-      password,
+      trimmedPassword,
       currentUser[0].password
     );
 
@@ -74,6 +95,7 @@ export async function signIn(req, res) {
 
     res.set("Set-Cookie", serializedToken);
     res.json({
+      message: "User signed in successfully",
       user: currentUser[0].username,
     });
   } catch (error) {
