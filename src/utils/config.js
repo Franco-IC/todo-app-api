@@ -18,7 +18,7 @@ export const home_JSON = [
     author: "Franco-IC",
   },
   {
-    try: "sending a GET request to /api/api_key to get you API key",
+    try: "sending a GET request to /api/api_key to get your API key",
   },
   {
     github: "https://github.com/Franco-IC",
