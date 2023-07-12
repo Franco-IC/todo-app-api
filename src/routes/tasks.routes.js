@@ -7,10 +7,10 @@ const router = Router();
 router.get("/", TasksController.getAllTasks);
 
 // Get Task by ID
-router.get("/:taskID", TasksController.getTaskByID);
+router.get("/id/:taskID", TasksController.getTaskByID);
 
 // Get Tasks by Author
-router.get("/:author", TasksController.getTasksByAuthor);
+router.get("/author/:author", TasksController.getTasksByAuthor);
 
 // New Task
 router.post("/new", TasksController.newTask);
