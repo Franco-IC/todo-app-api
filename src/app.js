@@ -9,7 +9,6 @@ import {
   remainingDailyAPIKeys,
   resetKeysUsagesAndRemainingKeysCounter,
 } from "./utils/APIKeysConfig.js";
-import { MySQLPool } from "./db.js";
 import { APIKeyValidation } from "./middlewares/APIKeyValidation.js";
 import AuthRouter from "./routes/auth.routes.js";
 import TasksRouter from "./routes/tasks.routes.js";
