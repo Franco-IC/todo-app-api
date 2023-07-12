@@ -52,7 +52,7 @@ app.get("/api/api_key", (req, res) => {
       );
     }
   } catch (error) {
-    errorJSON(error, res);
+    errorJSON(res, error.message);
   }
 });
 
@@ -65,7 +65,7 @@ app.get("/api/api_key/:key", (req, res) => {
 
     getAPIKeyInfo(key.trim(), res);
   } catch (error) {
-    errorJSON(error, res);
+    errorJSON(res, error.message);
   }
 });
 
