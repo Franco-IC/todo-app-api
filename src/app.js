@@ -5,9 +5,11 @@ import cookieParser from "cookie-parser";
 
 import {
   generateAPIKey,
+  getAPIKeyInfo,
   remainingDailyAPIKeys,
   resetKeysUsagesAndRemainingKeysCounter,
 } from "./utils/APIKeysConfig.js";
+import { MySQLPool } from "./db.js";
 import { APIKeyValidation } from "./middlewares/APIKeyValidation.js";
 import AuthRouter from "./routes/auth.routes.js";
 import TasksRouter from "./routes/tasks.routes.js";
@@ -40,6 +42,7 @@ app.get("/api", (req, res) => {
   res.json(home_JSON);
 });
 
+// API Key Generator
 app.get("/api/api_key", (req, res) => {
   try {
     if (remainingDailyAPIKeys > 0) {
@@ -49,6 +52,19 @@ app.get("/api/api_key", (req, res) => {
         "No more API Keys available for today. Limit resets at 00:00 GMT-3 (Buenos Aires)"
       );
     }
+  } catch (error) {
+    errorJSON(error, res);
+  }
+});
+
+// API Key Info
+app.get("/api/api_key/:key", (req, res) => {
+  try {
+    const { key } = req.params;
+
+    if (!key.trim()) throw new Error("no API Key provided");
+
+    getAPIKeyInfo(key.trim(), res);
   } catch (error) {
     errorJSON(error, res);
   }

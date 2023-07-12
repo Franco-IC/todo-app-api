@@ -29,7 +29,7 @@ export async function signUp(req, res) {
     const passwordHash = await cypherPassword(trimmedPassword);
 
     const [newUser] = await MySQLPool.query("INSERT INTO users SET ?", [
-      { trimmedUsername, password: passwordHash },
+      { username: trimmedUsername, password: passwordHash },
     ]);
 
     const token = jwt.sign({ user: trimmedUsername }, JWT_SECRET, {
@@ -127,6 +127,8 @@ export async function updateUserByID(req, res) {
   try {
     const { id } = req.params;
     const { username, password } = req.body;
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
 
     if (isNaN(Number(id))) {
       throw new Error("Task ID must be Int type");
@@ -141,11 +143,11 @@ export async function updateUserByID(req, res) {
       throw new Error("User not found");
     }
 
-    const passwordHash = await cypherPassword(password);
+    const passwordHash = await cypherPassword(trimmedPassword);
 
     const [result] = await MySQLPool.query(
       "UPDATE users SET username = ?, password = ? WHERE id = ?",
-      [username, passwordHash, id]
+      [trimmedUsername, passwordHash, id]
     );
 
     res.json({ message: "User updated successfully" });
