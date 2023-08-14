@@ -85,7 +85,7 @@ GET site/api/tasks/id/1
 
 ### `GET` `/author/:author`
  - expects: author (username).
- - success: returns a JSON containing the tasks for a given author.
+ - success: returns a JSON containing the tasks created by a given author.
  - exception: returns status 404 and a JSON with the message 'Author has no tasks created'.
 
 ``` bash
